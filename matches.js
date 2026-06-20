@@ -24,7 +24,7 @@ const MATCHES = [
     time: "2026-06-21T00:00:00+06:00", // Bangladesh Time (BST, UTC+6)
     status: "live",
     type: "hls",
-    src: "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
+    src: "https://8.kooralive360.com/albaplayer/bein-sports-hd-1/?serv=10"
   },
   {
     id: "wc2",
@@ -34,7 +34,7 @@ const MATCHES = [
     time: "2026-06-21T02:30:00+06:00",
     status: "live",
     type: "hls",
-    src: "https://devstreaming-cdn.apple.com/videos/streaming/examples/img_bipbop_adv_example_fmp4/master.m3u8"
+    src: "https://vjs.zencdn.net/7.20.3/video-js.css"
   },
   {
     id: "wc3",
@@ -44,7 +44,7 @@ const MATCHES = [
     time: "2026-06-21T22:00:00+06:00",
     status: "live",
     type: "youtube",
-    src: "https://www.youtube.com/embed/jfKfPfyJRdk?autoplay=1"
+    src: "https://vjs.zencdn.net/7.20.3/video-js.css" rel="stylesheet"
   },
   {
     id: "wc4",
