@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Match Schedule - FIFA World Cup Live | Created by Mahdi</title>
+  <meta name="description" content="FIFA World Cup match schedule - All times in Bangladesh Standard Time (BST). Created by Mahdi.">
+  <meta name="theme-color" content="#00ff88">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <nav class="nav">
+      <a href="index.html" class="logo">FIFA <span>Live</span></a>
+      <div class="nav-links">
+        <a href="index.html">Live</a>
+        <a href="schedule.html" class="active">Schedule</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="schedule-wrap">
+    <div style="margin-bottom:18px">
+      <h1 style="font-size:1.6rem;margin-bottom:4px;">Match Schedule</h1>
+      <p style="color:var(--text-dim)">All times in Bangladesh Standard Time (BST, UTC+6)</p>
+    </div>
+
+    <table class="schedule-table" id="schedule-table">
+      <thead>
+        <tr>
+          <th>Date & Time</th>
+          <th>Match</th>
+          <th>Status</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody id="schedule-body">
+      </tbody>
+    </table>
+  </main>
+
+  <footer>
+    <div class="creator-wrap">
+      <div class="creator-glow"></div>
+      <div class="creator">Created by Mahdi</div>
+      <div class="creator-glow"></div>
+    </div>
+    <div class="footer-sub">FIFA World Cup Live • 2026</div>
+  </footer>
+
+  <script src="matches.js"></script>
+  <script>
+    const tbody = document.getElementById('schedule-body');
+    // Sort by time
+    const sorted = [...MATCHES].sort((a,b) => new Date(a.time) - new Date(b.time));
+    
+    sorted.forEach(m => {
+      const tr = document.createElement('tr');
+      const isLive = m.status === 'live';
+      tr.innerHTML = `
+        <td>${formatBST(m.time)}</td>
+        <td class="table-match">${m.home} vs ${m.away}</td>
+        <td class="${isLive ? 'table-live' : ''}">${isLive ? '● LIVE' : 'Upcoming'}</td>
+        <td>${isLive && m.src ? `<a href="watch.html?id=${m.id}" style="color:var(--green);font-weight:600">Watch →</a>` : ''}</td>
+      `;
+      tbody.appendChild(tr);
+    });
+  </script>
+</body>
+</html>

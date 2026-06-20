@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FIFA World Cup Live – Watch Free | Created by Mahdi</title>
+  <meta name="description" content="Watch FIFA World Cup matches live in HD. Fast, clean, no buffering. HLS, YouTube & iframe support. Mobile friendly. Created by Mahdi.">
+  <meta name="theme-color" content="#00ff88">
+  <meta property="og:title" content="FIFA World Cup Live">
+  <meta property="og:description" content="Watch FIFA World Cup matches live – fast, clean, no buffering.">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <nav class="nav">
+      <a href="index.html" class="logo">FIFA <span>Live</span></a>
+      <div class="nav-links">
+        <a href="index.html" class="active">Live</a>
+        <a href="schedule.html">Schedule</a>
+      </div>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <h1><span class="live-dot"></span>Today's Matches</h1>
+    <p>Click any match to watch live. All times in Bangladesh Time (BST)</p>
+  </section>
+
+  <main class="matches-grid" id="matches-grid">
+    <!-- Matches injected by JS -->
+  </main>
+
+  <footer>
+    <div class="creator-wrap">
+      <div class="creator-glow"></div>
+      <div class="creator">Created by Mahdi</div>
+      <div class="creator-glow"></div>
+    </div>
+    <div class="footer-sub">FIFA World Cup Live • 2026</div>
+  </footer>
+
+  <script src="matches.js"></script>
+  <script>
+    const grid = document.getElementById('matches-grid');
+    
+    MATCHES.forEach(m => {
+      const isLive = m.status === 'live';
+      const card = document.createElement('div');
+      card.className = 'match-card';
+      card.innerHTML = `
+        <div class="match-top">
+          <span>${m.competition}</span>
+          ${isLive ? '<span class="live-badge">● LIVE</span>' : '<span class="upcoming-badge">Upcoming</span>'}
+        </div>
+        <div class="teams">
+          <span>${m.home}</span>
+          <span class="vs">vs</span>
+          <span>${m.away}</span>
+        </div>
+        <div class="match-meta">${formatBST(m.time)}</div>
+        ${isLive && m.src 
+          ? `<a class="watch-btn" href="watch.html?id=${m.id}">Watch Live →</a>`
+          : `<div class="watch-btn off">Starts ${formatBST(m.time)}</div>`
+        }
+      `;
+      if (isLive && m.src) {
+        card.addEventListener('click', e => {
+          if (!e.target.closest('a')) window.location = `watch.html?id=${m.id}`;
+        });
+        card.setAttribute('role','link');
+        card.tabIndex = 0;
+      }
+      grid.appendChild(card);
+    });
+
+    if (MATCHES.filter(m => m.status === 'live').length === 0) {
+      grid.insertAdjacentHTML('beforeend', `<p style="color:var(--text-dim); grid-column:1/-1; text-align:center; padding:20px 0">No live matches right now. Check the <a href="schedule.html" style="color:var(--green); text-decoration:underline">full schedule</a>.</p>`);
+    }
+  </script>
+</body>
+</html>

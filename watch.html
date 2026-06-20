@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Watch Live - FIFA World Cup</title>
+  <meta name="description" content="Watch FIFA World Cup live in HD with no buffering. Created by Mahdi.">
+  <meta name="theme-color" content="#00ff88">
+  <meta property="og:title" content="FIFA World Cup Live">
+  <meta property="og:description" content="Watch FIFA World Cup matches live – fast, clean, no buffering.">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Plyr CSS -->
+  <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <nav class="nav">
+      <a href="index.html" class="logo">FIFA <span>Live</span></a>
+      <div class="nav-links">
+        <a href="index.html">Live</a>
+        <a href="schedule.html">Schedule</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="watch-wrap">
+    <a href="index.html" class="back-link">← Back to matches</a>
+    <h1 class="match-title-watch" id="match-title">Loading…</h1>
+
+    <div class="player-container" id="player-container">
+      <!-- Loading spinner -->
+      <div class="player-loading" id="player-loading">
+        <div class="spinner"></div>
+        <div class="loading-text" id="loading-text">Loading stream…</div>
+        <div class="loading-sub">Connecting to server • HLS low-latency</div>
+      </div>
+      <!-- Error / retry overlay -->
+      <div class="player-error" id="player-error">
+        <div style="font-weight:700;font-size:1.05rem">Stream interrupted</div>
+        <div style="color:#9aa;font-size:.9rem" id="error-msg">Retrying automatically…</div>
+        <button class="retry-btn" id="retry-btn">Retry Now</button>
+      </div>
+      <!-- video/iframe injected here -->
+    </div>
+
+    <div class="stream-info" id="stream-info">
+      <div class="left">
+        <span><strong>Status:</strong> <span class="badge-ok" id="stream-status">Connecting…</span></span>
+        <span><strong>Quality:</strong> Auto</span>
+        <span><strong>Latency:</strong> Low</span>
+      </div>
+      <div>
+        <button class="small-btn" id="pip-btn" title="Picture-in-Picture">PiP</button>
+        <button class="small-btn" id="reload-btn">Reload Stream</button>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="creator-wrap">
+      <div class="creator-glow"></div>
+      <div class="creator">Created by Mahdi</div>
+      <div class="creator-glow"></div>
+    </div>
+    <div class="footer-sub">FIFA World Cup Live • 2026</div>
+  </footer>
+
+  <script src="matches.js"></script>
+  <!-- HLS.js for smooth m3u8 -->
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.8/dist/hls.min.js"></script>
+  <!-- Plyr.js for beautiful player UI -->
+  <script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js"></script>
+  <script src="player.js"></script>
+</body>
+</html>
