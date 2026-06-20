@@ -16,35 +16,26 @@
 // iframe:  src: "https://example.com/embed/123"
 
 const MATCHES = [
-  // Example of how your frontend should render the match
-function renderPlayer(match) {
-  const playerContainer = document.getElementById('player-container');
-  
-  if (match.type === 'iframe') {
-    // This perfectly loads your researched KooraLive and Blogspot links
-    playerContainer.innerHTML = `
-      <iframe 
-        src="${match.src}" 
-        width="100%" 
-        height="500px" 
-        frameborder="0" 
-        scrolling="no" 
-        allowfullscreen="true"
-        allow="encrypted-media">
-      </iframe>
-    `;
-  } else if (match.type === 'hls') {
-    // Standard video tag for raw .m3u8 files, if you find them in the future
-    playerContainer.innerHTML = `
-      <video id="my-video" class="video-js" controls preload="auto" width="100%" height="500px">
-        <source src="${match.src}" type="application/x-mpegURL">
-      </video>
-    `;
-  }
-}
-
-// Call the function with your first match
-renderPlayer(matches[0]);
+  {
+    id: "wc1",
+    home: "Argentina",
+    away: "Brazil",
+    competition: "FIFA World Cup",
+    time: "2026-06-21T00:00:00+06:00", // Bangladesh Time (BST, UTC+6)
+    status: "live",
+    type: "iframe",
+    src: "https://8.kooralive360.com/albaplayer/bein-sports-hd-1/?serv=10"
+  },
+  {
+    id: "wc2",
+    home: "France",
+    away: "Spain",
+    competition: "FIFA World Cup",
+    time: "2026-06-21T02:30:00+06:00",
+    status: "live",
+    type: "iframe",
+    src: "https://cswc6.blogspot.com/p/match1.html"
+  },
   {
     id: "wc3",
     home: "England",
@@ -52,7 +43,7 @@ renderPlayer(matches[0]);
     competition: "FIFA World Cup",
     time: "2026-06-21T22:00:00+06:00",
     status: "live",
-    type: "youtube",
+    type: "iframe", // Changed to iframe to correctly process the blogspot web URL structure
     src: "https://cswc6.blogspot.com/p/match1.html"
   },
   {
@@ -73,7 +64,7 @@ renderPlayer(matches[0]);
     time: "2026-06-22T21:00:00+06:00",
     status: "upcoming",
     type: "hls",
-    src: ""
+    src: "" // Add stream link when available
   },
   {
     id: "wc6",
@@ -83,9 +74,57 @@ renderPlayer(matches[0]);
     time: "2026-06-23T00:30:00+06:00",
     status: "upcoming",
     type: "hls",
-    src: ""
+    src: "" // Add stream link when available
   }
 ];
+
+// Core Rendering Engine
+function renderPlayer(match) {
+  const playerContainer = document.getElementById('player-container');
+  
+  // Defensive Check: stop execution if the DOM container element is missing
+  if (!playerContainer) {
+    console.error("Target container '#player-container' not found in the DOM.");
+    return;
+  }
+  if (!match) {
+    console.error("No valid match object provided to the player engine.");
+    return;
+  }
+
+  // Handle direct web links or embeds via frame container
+  if (match.type === 'iframe' || match.type === 'youtube') {
+    playerContainer.innerHTML = `
+      <iframe 
+        src="${match.src}" 
+        width="100%" 
+        height="500px" 
+        frameborder="0" 
+        scrolling="no" 
+        allowfullscreen="true"
+        allow="encrypted-media">
+      </iframe>
+    `;
+  } 
+  // Handle raw stream configurations (.m3u8 playlist manifests)
+  else if (match.type === 'hls') {
+    if (!match.src) {
+      playerContainer.innerHTML = `
+        <div class="player-error-fallback" style="padding: 40px; text-align: center; background: #1a1a1a; color: #fff;">
+          <h3>Stream URL Unassigned</h3>
+          <p>This match setup has no operational video feed configured yet.</p>
+        </div>
+      `;
+      return;
+    }
+    
+    playerContainer.innerHTML = `
+      <video id="my-video" class="video-js" controls preload="auto" width="100%" height="500px">
+        <source src="${match.src}" type="application/x-mpegURL">
+      </video>
+    `;
+  }
+}
 
 // Helper: format Bangladesh time nicely
 function formatBST(isoString) {
@@ -99,3 +138,12 @@ function formatBST(isoString) {
     hour12: true
   }) + ' BST';
 }
+
+// Lifecycle Initialization: Ensures script executes safely after the structural HTML elements load
+document.addEventListener('DOMContentLoaded', () => {
+  // Finds the first available active match containing a source URL configuration
+  const activeMatch = MATCHES.find(m => m.status === 'live' && m.src !== "") || MATCHES[0];
+  if (activeMatch) {
+    renderPlayer(activeMatch);
+  }
+});
