@@ -16,26 +16,35 @@
 // iframe:  src: "https://example.com/embed/123"
 
 const MATCHES = [
-  {
-    id: "wc1",
-    home: "Argentina",
-    away: "Brazil",
-    competition: "FIFA World Cup",
-    time: "2026-06-21T00:00:00+06:00", // Bangladesh Time (BST, UTC+6)
-    status: "live",
-    type: "hls",
-    src: "https://8.kooralive360.com/albaplayer/bein-sports-hd-1/?serv=10"
-  },
-  {
-    id: "wc2",
-    home: "France",
-    away: "Spain",
-    competition: "FIFA World Cup",
-    time: "2026-06-21T02:30:00+06:00",
-    status: "live",
-    type: "hls",
-    src: "https://vjs.zencdn.net/7.20.3/video-js.css"
-  },
+  // Example of how your frontend should render the match
+function renderPlayer(match) {
+  const playerContainer = document.getElementById('player-container');
+  
+  if (match.type === 'iframe') {
+    // This perfectly loads your researched KooraLive and Blogspot links
+    playerContainer.innerHTML = `
+      <iframe 
+        src="${match.src}" 
+        width="100%" 
+        height="500px" 
+        frameborder="0" 
+        scrolling="no" 
+        allowfullscreen="true"
+        allow="encrypted-media">
+      </iframe>
+    `;
+  } else if (match.type === 'hls') {
+    // Standard video tag for raw .m3u8 files, if you find them in the future
+    playerContainer.innerHTML = `
+      <video id="my-video" class="video-js" controls preload="auto" width="100%" height="500px">
+        <source src="${match.src}" type="application/x-mpegURL">
+      </video>
+    `;
+  }
+}
+
+// Call the function with your first match
+renderPlayer(matches[0]);
   {
     id: "wc3",
     home: "England",
