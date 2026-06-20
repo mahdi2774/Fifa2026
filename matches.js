@@ -44,7 +44,7 @@ const MATCHES = [
     time: "2026-06-21T22:00:00+06:00",
     status: "live",
     type: "youtube",
-    src: "https://vjs.zencdn.net/7.20.3/video-js.css" rel="stylesheet"
+    src: "https://cswc6.blogspot.com/p/match1.html"
   },
   {
     id: "wc4",
